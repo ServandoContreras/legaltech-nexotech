@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MVP 2 · Análisis de contratos inteligentes</title>
+<style>
+:root{--ink:#10233f;--muted:#64748b;--line:#dce5ef;--bg:#f4f7fb;--card:#fff;--blue:#1f5d8f;--green:#0f766e;--amber:#946200;--red:#b42318}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}header{background:linear-gradient(120deg,#0f2948,#1e5b87);color:#fff;padding:34px 28px 30px}.wrap{max-width:1180px;margin:auto}.head{display:flex;justify-content:space-between;gap:24px;align-items:flex-end}h1{margin:0;font-size:34px;letter-spacing:-.6px}.subtitle{margin:9px 0 0;color:#dbeafe;font-size:16px;max-width:800px;line-height:1.5}.badge{border:1px solid #ffffff59;padding:8px 12px;border-radius:999px;font-size:13px;white-space:nowrap;background:#ffffff14}.site-nav{background:#fff;border-bottom:1px solid var(--line)}.nav-inner{display:flex;gap:6px;padding:10px 20px}.nav-link{text-decoration:none;color:#52657a;font-weight:800;font-size:13px;padding:9px 12px;border-radius:8px}.nav-link:hover{background:#f1f5f9;color:var(--ink)}.nav-link.active{background:#e8f0f7;color:#174f7a}main{max-width:1180px;margin:24px auto 56px;padding:0 20px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.top p{margin:0;color:var(--muted);font-size:14px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:700;cursor:pointer;font-size:14px}.primary{background:var(--blue);color:#fff}.secondary{background:#e7eef6;color:var(--ink)}.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 6px 22px #0f233f0d;overflow:hidden}.ph{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.ph h2{font-size:19px;margin:0}.ph span{font-size:12px;color:var(--muted)}.section{padding:18px 20px;border-bottom:1px solid #edf1f5}.section:last-child{border-bottom:0}.section h3{margin:0 0 13px;font-size:15px;color:#183b60}.hint{margin:-4px 0 13px;color:var(--muted);font-size:12px;line-height:1.45}.row{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{margin-bottom:13px}label{display:block;font-size:12px;font-weight:800;margin-bottom:6px;color:#334155}input[type=text],textarea,select{width:100%;border:1px solid #cfd9e5;background:#fff;border-radius:8px;padding:10px 11px;font:inherit;font-size:14px;color:var(--ink)}textarea{resize:vertical;min-height:76px}.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.check{display:flex;align-items:flex-start;gap:8px;border:1px solid #e1e8ef;border-radius:8px;padding:9px;background:#fbfcfe;font-size:13px;line-height:1.3}.check input{margin-top:2px}.mini{font-size:11px;color:var(--muted);line-height:1.35;margin-top:5px}.empty{padding:58px 36px;text-align:center;color:var(--muted)}.empty .icon{width:70px;height:70px;margin:0 auto 18px;border-radius:20px;background:#edf4fa;display:grid;place-items:center;font-size:31px}.empty h3{color:var(--ink);margin:0 0 8px}#results{display:none}.result-head{padding:20px;background:#f8fbfd;border-bottom:1px solid var(--line)}.result-pill{display:inline-block;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900;text-transform:uppercase;margin-bottom:10px}.ok{background:#e7f5f1;color:var(--green)}.conditional{background:#fff3d6;color:var(--amber)}.stop{background:#feeceb;color:var(--red)}.result-head h3{margin:0 0 7px;font-size:21px}.result-head p{margin:0;color:#52657a;font-size:13px;line-height:1.5}.scorebox{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.score{padding:13px;border:1px solid var(--line);border-radius:10px;background:#fff}.score b{display:block;font-size:24px}.score span{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--muted)}.analysis{padding:14px 20px 4px}.card{border:1px solid var(--line);border-radius:11px;margin:0 0 10px;background:#fff;padding:13px}.card h4{margin:0 0 7px;font-size:13px}.card p,.card ul{margin:0;color:#475569;font-size:12.5px;line-height:1.5}.card ul{padding-left:18px}.blockers{background:#fff8f7;border-color:#ffd6d2}.legal{margin:0 20px 20px;background:#edf4fa;border-radius:11px;padding:14px 15px}.legal h4{margin:0 0 7px;font-size:13px}.legal p{margin:0;color:#475569;font-size:12.5px;line-height:1.55}.logic{margin:20px 20px 0;border:1px dashed #b9c8d8;border-radius:10px;padding:12px 13px;background:#fbfdff;color:#52657a;font-size:11.5px;line-height:1.45}.tag{display:inline-block;background:#eef3f8;color:#40566d;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;margin:2px 3px 2px 0}footer{max-width:1180px;margin:0 auto 35px;padding:0 20px;color:#708090;font-size:11px;line-height:1.5}.footbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}@media(max-width:900px){.grid{grid-template-columns:1fr}.head{display:block}.badge{display:inline-block;margin-top:18px}.row,.checks{grid-template-columns:1fr}.nav-inner{overflow-x:auto;white-space:nowrap}}@media print{body{background:#fff}header{padding:20px}.site-nav,.top,.form{display:none!important}.grid{grid-template-columns:1fr}.panel{box-shadow:none}.result-head{background:#fff}}
+</style>
+</head>
+<body>
+<header><div class="wrap head"><div><h1>Análisis de contratos inteligentes</h1><p class="subtitle">MVP 2 · Módulo LegalTech para valorar si una operación comercial es jurídicamente conveniente para una ejecución automatizada.</p></div><div class="badge">Especialidad en Derecho Digital</div></div></header>
+<nav class="site-nav"><div class="wrap nav-inner"><a class="nav-link" href="index.html">Perfil Jurídico-Digital</a><a class="nav-link active" href="evauation-smart-contract.html">Análisis de contratos inteligentes</a></div></nav>
+
+<main>
+<div class="top"><p>Registra la operación, valora sus condiciones y genera una recomendación jurídica preliminar.</p><div class="actions"><button class="btn secondary" id="demo">Cargar caso NexoTech MX</button><button class="btn ghost" id="clear">Limpiar</button><button class="btn primary" onclick="print()">Imprimir resultado</button></div></div>
+
+<div class="grid">
+<section class="panel form">
+<div class="ph"><h2>1. Datos de la operación</h2><span>Entrada</span></div>
+
+<div class="section">
+<h3>Operación susceptible de automatización</h3>
+<div class="row">
+<div class="field"><label>Negocio</label><input id="business" type="text" placeholder="Ej. NexoTech MX, S.A. de C.V."></div>
+<div class="field"><label>Operación comercial seleccionada</label><select id="operation"><option value="refund">Reembolso automático</option><option value="payment">Pago automático</option><option value="delivery">Confirmación de entrega</option><option value="release">Liberación de recursos</option><option value="other">Otra operación</option></select></div>
+</div>
+<div class="field"><label>Descripción de la operación</label><textarea id="opdesc" placeholder="Describe brevemente qué se pretende automatizar..."></textarea></div>
+<div class="field"><label>Actores que intervienen</label><div class="checks" id="actors">
+<label class="check"><input type="checkbox" value="Consumidor"> Consumidor</label>
+<label class="check"><input type="checkbox" value="Comercio electrónico"> Comercio electrónico</label>
+<label class="check"><input type="checkbox" value="Proveedor logístico"> Proveedor logístico</label>
+<label class="check"><input type="checkbox" value="Procesador de pagos"> Procesador de pagos</label>
+<label class="check"><input type="checkbox" value="Proveedor tecnológico"> Proveedor tecnológico</label>
+<label class="check"><input type="checkbox" value="Otro tercero"> Otro tercero</label>
+</div></div>
+<div class="field"><label>Condición principal que activaría la ejecución</label><textarea id="trigger" placeholder="Ej. El proveedor logístico registra un incumplimiento de entrega conforme a las condiciones pactadas."></textarea></div>
+<div class="field"><label>Información necesaria para comprobar la condición</label><div class="checks" id="evidence">
+<label class="check"><input type="checkbox" value="ID de pedido"> ID de pedido</label>
+<label class="check"><input type="checkbox" value="Fecha comprometida"> Fecha comprometida</label>
+<label class="check"><input type="checkbox" value="Estado de rastreo"> Estado de rastreo</label>
+<label class="check"><input type="checkbox" value="Evidencia del transportista"> Evidencia del transportista</label>
+<label class="check"><input type="checkbox" value="ID de transacción"> ID de transacción</label>
+<label class="check"><input type="checkbox" value="Estado del pago"> Estado del pago</label>
+</div></div>
+<div class="field"><label>Fuente principal de verificación</label><input id="source" type="text" placeholder="Ej. API del proveedor logístico"></div>
+</div>
+
+<div class="section">
+<h3>Beneficios y limitaciones</h3>
+<p class="hint">Selecciona únicamente los elementos que correspondan con la operación analizada.</p>
+<div class="field"><label>Principales beneficios</label><div class="checks" id="benefits">
+<label class="check"><input type="checkbox" value="Rapidez"> Reduce el tiempo de ejecución</label>
+<label class="check"><input type="checkbox" value="Uniformidad"> Aplica de forma uniforme una condición definida</label>
+<label class="check"><input type="checkbox" value="Trazabilidad"> Mejora la trazabilidad</label>
+<label class="check"><input type="checkbox" value="Menor intervención"> Reduce intervención manual</label>
+<label class="check"><input type="checkbox" value="Evidencia"> Facilita el registro de la causa de ejecución</label>
+<label class="check"><input type="checkbox" value="Previsibilidad"> Aumenta la previsibilidad para las partes</label>
+</div></div>
+<div class="field"><label>Posibles limitaciones tecnológicas</label><div class="checks" id="limits">
+<label class="check"><input type="checkbox" value="Dependencia de tercero"> Dependencia de sistemas de terceros</label>
+<label class="check"><input type="checkbox" value="Oráculo"> Necesidad de un oráculo o fuente externa</label>
+<label class="check"><input type="checkbox" value="Disponibilidad"> Fallas o indisponibilidad de APIs</label>
+<label class="check"><input type="checkbox" value="Dato incorrecto"> Información externa incorrecta</label>
+<label class="check"><input type="checkbox" value="Irreversibilidad"> Dificultad para revertir la ejecución</label>
+<label class="check"><input type="checkbox" value="Interoperabilidad"> Problemas de interoperabilidad</label>
+</div></div>
+<div class="field"><label>Principales riesgos jurídicos</label><div class="checks" id="risks">
+<label class="check"><input type="checkbox" value="Error de fuente"> Ejecución basada en información incorrecta</label>
+<label class="check"><input type="checkbox" value="Responsabilidad"> Responsabilidad no claramente distribuida</label>
+<label class="check"><input type="checkbox" value="Excepciones"> Incapacidad para valorar excepciones jurídicas</label>
+<label class="check"><input type="checkbox" value="Consumidor"> Afectación de derechos del consumidor</label>
+<label class="check"><input type="checkbox" value="Datos personales"> Tratamiento innecesario o excesivo de datos</label>
+<label class="check"><input type="checkbox" value="Prueba"> Evidencia insuficiente de la ejecución</label>
+</div></div>
+</div>
+
+<div class="section">
+<h3>Condiciones jurídicas y de control</h3>
+<p class="hint">Estas variables determinan la recomendación. La herramienta aplica un puntaje y, además, criterios de exclusión para situaciones de riesgo jurídico alto.</p>
+<div class="row">
+<div class="field"><label>Objetividad de la condición</label><select id="objective"><option value="2">Objetiva y claramente definida</option><option value="1">Parcialmente objetiva</option><option value="0">Depende de una valoración subjetiva</option></select></div>
+<div class="field"><label>Calidad de la evidencia</label><select id="proof"><option value="2">Verificable y suficiente</option><option value="1">Verificación limitada</option><option value="0">No existe evidencia suficiente</option></select></div>
+</div>
+<div class="row">
+<div class="field"><label>Confiabilidad de la fuente externa</label><select id="reliability"><option value="2">Fuente definida y confiable</option><option value="1">Dependencia moderada / requiere validación</option><option value="0">Fuente no confiable o indeterminada</option></select></div>
+<div class="field"><label>Reversibilidad de la acción</label><select id="reversible"><option value="2">Reversible</option><option value="1">Requiere intervención para revertirse</option><option value="0">Prácticamente irreversible</option></select></div>
+</div>
+<div class="row">
+<div class="field"><label>Derechos del consumidor</label><select id="rights"><option value="2">Se conservan íntegramente</option><option value="1">Requiere controles adicionales</option><option value="0">La automatización los limita</option></select></div>
+<div class="field"><label>Revisión humana</label><select id="review"><option value="2">Disponible antes o después de ejecutar</option><option value="1">Disponible solo de forma excepcional</option><option value="0">No existe mecanismo de revisión</option></select></div>
+</div>
+<div class="field"><label>Distribución de responsabilidad</label><select id="liability"><option value="2">Responsabilidades previamente definidas</option><option value="1">Definición parcial</option><option value="0">No se ha determinado quién responde</option></select></div>
+</div>
+
+<div class="section"><button class="btn primary" style="width:100%;padding:13px" id="generate">Generar recomendación</button></div>
+</section>
+
+<aside class="panel">
+<div class="ph"><h2>2. Resultado jurídico</h2><span>Recomendación</span></div>
+<div id="empty" class="empty"><div class="icon">⚙</div><h3>Aún no hay análisis</h3><div>Completa la información de la operación o carga el caso de NexoTech MX.</div></div>
+<div id="results">
+<div class="result-head">
+<div id="pill" class="result-pill conditional">Conveniente con condiciones</div>
+<h3 id="rtitle"></h3>
+<p id="rsummary"></p>
+<div class="scorebox"><div class="score"><b id="score">0/14</b><span>Valoración</span></div><div class="score"><b id="blockcount">0</b><span>Criterios de exclusión</span></div></div>
+</div>
+<div class="logic">Regla del MVP: 12–14 puntos = conveniente; 8–11 = conveniente con condiciones; 0–7 = no conveniente. Un criterio de exclusión puede cambiar directamente el resultado a “No conveniente”.</div>
+<div class="analysis">
+<div class="card"><h4>Operación analizada</h4><p id="operationOut"></p><div id="tags"></div></div>
+<div class="card"><h4>Elementos favorables</h4><ul id="positive"></ul></div>
+<div class="card"><h4>Elementos que requieren control</h4><ul id="controls"></ul></div>
+<div class="card blockers" id="blockCard" style="display:none"><h4>Criterios de exclusión detectados</h4><ul id="blockers"></ul></div>
+</div>
+<div class="legal"><h4>Justificación jurídica</h4><p id="legalText"></p></div>
+</div>
+</aside>
+</div>
+</main>
+
+<footer><div class="footbox"><b>Alcance:</b> herramienta académica de apoyo para una valoración jurídica preliminar. No programa ni ejecuta un contrato inteligente y no sustituye el contrato jurídico ni una revisión profesional. Referencias conceptuales: Ley Modelo de la CNUDMI sobre Contratación Automatizada (2024); De Filippi y Hassan, <i>Blockchain technology as a regulatory technology</i>; Klass, <i>How to interpret a vending machine: Smart contracts and contract law</i>; y normativa mexicana aplicable a comercio electrónico y protección al consumidor.</div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const checked=id=>[...$(id).querySelectorAll('input:checked')].map(x=>x.value);
+const set=(id,vals)=>[...$(id).querySelectorAll('input')].forEach(x=>x.checked=vals.includes(x.value));
+function demo(){
+ $('business').value='NexoTech MX, S.A. de C.V.';
+ $('operation').value='refund';
+ $('opdesc').value='Reembolso automático cuando un pedido no puede ser entregado conforme a una condición objetiva previamente definida.';
+ set('actors',['Consumidor','Comercio electrónico','Proveedor logístico','Procesador de pagos']);
+ $('trigger').value='El proveedor logístico registra que el pedido no pudo ser entregado, fue devuelto al remitente o actualiza otra condición objetiva de incumplimiento previamente pactada.';
+ set('evidence',['ID de pedido','Fecha comprometida','Estado de rastreo','Evidencia del transportista','ID de transacción','Estado del pago']);
+ $('source').value='API y sistema de rastreo del proveedor logístico';
+ set('benefits',['Rapidez','Uniformidad','Trazabilidad','Menor intervención','Evidencia','Previsibilidad']);
+ set('limits',['Dependencia de tercero','Oráculo','Disponibilidad','Dato incorrecto','Interoperabilidad']);
+ set('risks',['Error de fuente','Responsabilidad','Excepciones','Consumidor','Datos personales','Prueba']);
+ $('objective').value='2';$('proof').value='2';$('reliability').value='1';$('reversible').value='2';$('rights').value='1';$('review').value='2';$('liability').value='1';
+ generate();
+}
+function li(items){return items.length?items.map(x=>'<li>'+x+'</li>').join(''):'<li>No se registraron elementos adicionales.</li>'}
+function generate(){
+ const vals=['objective','proof','reliability','reversible','rights','review','liability'].map(id=>Number($(id).value));
+ const total=vals.reduce((a,b)=>a+b,0), blocks=[];
+ if($('objective').value==='0') blocks.push('La condición depende esencialmente de una valoración subjetiva que el sistema no puede resolver de forma segura.');
+ if($('proof').value==='0') blocks.push('No existe evidencia suficiente para acreditar el hecho que activaría la ejecución.');
+ if($('rights').value==='0') blocks.push('La automatización limitaría derechos del consumidor.');
+ if($('reversible').value==='0' && $('review').value==='0') blocks.push('La consecuencia es prácticamente irreversible y no existe revisión humana.');
+ if($('liability').value==='0') blocks.push('No está definido quién respondería ante una ejecución incorrecta.');
+ let result,cls;
+ if(blocks.length || total<=7){result='No conveniente';cls='stop'}
+ else if(total>=12){result='Conveniente';cls='ok'}
+ else{result='Conveniente con condiciones';cls='conditional'}
+ const b=checked('benefits'),l=checked('limits'),r=checked('risks'),a=checked('actors'),e=checked('evidence');
+ const opname=$('operation').options[$('operation').selectedIndex].text;
+ const favorable=[];
+ if(Number($('objective').value)===2) favorable.push('La condición de ejecución está definida mediante hechos objetivos.');
+ if(Number($('proof').value)===2) favorable.push('La operación cuenta con información verificable para comprobar el evento de activación.');
+ if(Number($('reversible').value)===2) favorable.push('La consecuencia puede revertirse si se identifica un error.');
+ if(Number($('review').value)===2) favorable.push('Existe un mecanismo de revisión humana para atender excepciones o controversias.');
+ if(b.length) favorable.push('Se identifican beneficios operativos concretos: '+b.join(', ').toLowerCase()+'.');
+ const controls=[];
+ if(Number($('reliability').value)<2) controls.push('La fuente externa debe validarse y documentarse porque el sistema depende de información producida por terceros.');
+ if(Number($('rights').value)<2) controls.push('Deben incorporarse salvaguardas que mantengan íntegros los derechos del consumidor y sus vías de reclamación.');
+ if(Number($('liability').value)<2) controls.push('Es necesario definir contractualmente las responsabilidades del comercio, proveedor logístico, procesador de pagos y demás participantes.');
+ if(l.length) controls.push('Limitaciones tecnológicas registradas: '+l.join(', ').toLowerCase()+'.');
+ if(r.length) controls.push('Riesgos jurídicos identificados: '+r.join(', ').toLowerCase()+'.');
+ let legal;
+ if(result==='Conveniente'){
+  legal='La operación presenta condiciones suficientemente objetivas y verificables para considerar su automatización. La recomendación supone que el mecanismo automatizado complementará las condiciones jurídicas de la operación, conservará evidencia de la ejecución y mantendrá disponibles los mecanismos de revisión y responsabilidad correspondientes.';
+ } else if(result==='Conveniente con condiciones'){
+  legal='La automatización puede aportar rapidez, trazabilidad y uniformidad, pero su conveniencia jurídica depende de controles adicionales. Deben definirse las fuentes de información autorizadas, conservarse evidencia suficiente de la condición que activa la ejecución, establecerse responsabilidades ante errores y mantenerse un mecanismo de revisión o reclamación. El mecanismo automatizado debe complementar el contrato jurídico y no sustituir sus reglas, excepciones ni garantías.';
+ } else {
+  legal='Con la información registrada no resulta jurídicamente recomendable automatizar esta operación. Antes de implementar un mecanismo de ejecución automática deben corregirse los criterios de exclusión detectados y asegurar que la condición sea objetiva, verificable, compatible con los derechos de las partes, revisable cuando sea necesario y acompañada de una distribución clara de responsabilidades.';
+ }
+ $('pill').textContent=result;$('pill').className='result-pill '+cls;
+ $('rtitle').textContent=($('business').value.trim()||'Operación analizada')+' · '+opname;
+ $('rsummary').textContent='La herramienta valoró siete condiciones jurídicas y tecnológicas y obtuvo '+total+' de 14 puntos'+(blocks.length?', además de '+blocks.length+' criterio(s) de exclusión.':'.');
+ $('score').textContent=total+'/14';$('blockcount').textContent=blocks.length;
+ $('operationOut').textContent=($('opdesc').value.trim()||'Sin descripción adicional.')+' Condición de activación: '+($('trigger').value.trim()||'no especificada')+'. Fuente de verificación: '+($('source').value.trim()||'no especificada')+'.';
+ $('tags').innerHTML=[...a,...e].map(x=>'<span class="tag">'+x+'</span>').join('');
+ $('positive').innerHTML=li(favorable);$('controls').innerHTML=li(controls);$('blockers').innerHTML=li(blocks);$('blockCard').style.display=blocks.length?'block':'none';$('legalText').textContent=legal;
+ $('empty').style.display='none';$('results').style.display='block';
+}
+function clearAll(){
+ document.querySelectorAll('input[type=text],textarea').forEach(x=>x.value='');
+ document.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=false);
+ $('operation').value='refund';['objective','proof','reliability','reversible','rights','review','liability'].forEach(x=>$(x).value='2');
+ $('results').style.display='none';$('empty').style.display='block';
+}
+$('demo').onclick=demo;$('clear').onclick=clearAll;$('generate').onclick=generate;
+if(new URLSearchParams(location.search).get('demo')==='1')demo();
+</script>
+</body>
+</html>
